@@ -5,7 +5,6 @@
         </button>
         <img :src="good.pic" alt="">
         <div>
-            <span>{{good.id}}</span>
             <h3>{{good.name}}</h3>
             <p>{{good.description}}</p>
             <span>{{good.price}}</span><span> руб.</span>

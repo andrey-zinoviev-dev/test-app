@@ -74,6 +74,8 @@
 </script>
 
 <style scoped>
+    @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
+
     form {
         display: flex;
         flex-direction: column;
@@ -114,6 +116,10 @@
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         border: none;
+    }
+    input::placeholder, textarea::placeholder {
+        font-family: 'Source Sans Pro', sans-serif;
+        padding: 0 0 0 16px;
     }
     input, button {
         min-height: 36px;

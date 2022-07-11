@@ -34,13 +34,13 @@
     methods: {
       //вот здесь
       deleteGood(goodData) {
-        console.log(goodData);
+        // console.log(goodData);
         // const goodIndex = this.goodsList.indexOf(goodData);
-        // const resultArray = this.goodsList.splice(goodIndex, 1);
-        
-        // this.goodsList = this.goodsList.filter((good) => {
-        //   return good.id !== goodData.id;
-        // });
+        // this.goodsList.splice(goodIndex, 1);
+        // this.goodsList = resultArray;
+        this.goodsList = this.goodsList.filter((good) => {
+          return good.id !== goodData.id;
+        });
       },
       addGood(goodData) {
         this.goodsList.unshift(goodData);

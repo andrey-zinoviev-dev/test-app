@@ -1,6 +1,16 @@
 <template>
     <section>
-        <h1>Добавление товара</h1>
+        <div class="heading-block">
+            <h1>Добавление товара</h1>
+            <div class="select-background">
+                <select name="" id="">
+                    <option value="default">По умолчанию</option>
+                    <option value="min">По возрастанию</option>
+                    <option value="max">По убыванию</option>
+                </select>
+            </div>
+        </div>
+        
         <div>
             <FormComp @addGood="this.addGood"></FormComp>
             <ListComp>
@@ -49,16 +59,61 @@
 </script>
 
 <style scoped>
+    @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
     section {
         box-sizing: border-box;
-        padding: 0 36px;
+        padding: 32px 36px 0 32px;
+        font-family: 'Source Sans Pro', sans-serif;
     }
     div {
         display: flex;
         justify-content: space-between;
         align-items: flex-start;
     }
+
     h1 {
         text-align: left;
+        font-weight: 600;
+        font-size: 28px;
+        line-height: 35px;
+        /* margin: 32px 0 16px 0; */
+        margin: 0;
+    }
+    .select-background {
+        min-width: 120px;
+        background: #FFFEFB;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        border-radius: 4px;
+        border: 2px solid transparent;
+        overflow: hidden;
+        background: url('../assets/arrow-down.png') no-repeat calc(100% - 12px) #fff;
+        outline: none;
+        cursor: pointer;
+    }
+    .select-background:focus-within {
+        border: 2px solid #acacac;
+    }
+    select {
+        box-sizing: border-box;
+        padding: 0 0px;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: transparent;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 15px;
+        color: #B4B4B4;
+        border: none;
+        min-height: 36px;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 0 16px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .heading-block {
+        margin: 0 0 16px 0;
     }
 </style>
