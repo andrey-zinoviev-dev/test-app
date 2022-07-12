@@ -3,7 +3,7 @@
         <div class="heading-block">
             <h1>Добавление товара</h1>
             <div class="select-background">
-                <select name="" id="">
+                <select name="filter" id="" v-model="selected">
                     <option value="default">По умолчанию</option>
                     <option value="min">По возрастанию</option>
                     <option value="max">По убыванию</option>
@@ -27,12 +27,32 @@
     import ListElement from './ListElement.vue';
     import GoodComponent from './GoodComponent.vue';
     import FormComp from './FormComp.vue';
+
+    
+
     export default {
         name: "GoodsSection",
         data() {
             return {
+                selected: "default",
                 goodsToRender: this.goods,
+
             };
+        },
+        watch: {
+            selected(newSlectedValue) {
+                // console.log(oldSelectedValue);
+                if(newSlectedValue === 'default') {
+                    // return this.goodsToRender;
+                    this.filterName(this.goodsToRender);
+                }
+                if(newSlectedValue === 'min') {
+                    this.filterMinToMax(this.goodsToRender);
+                }
+                if(newSlectedValue === 'max') {
+                    this.filterMaxToMin(this.goodsToRender);
+                }
+            }
         },
         props: {
             goods: Array,
@@ -44,6 +64,24 @@
             },
             addGood(good) {
                 this.$emit('addGood', good);
+            },
+            filterMinToMax (array) {
+                return array.sort((a, b) => {
+                    return a.price - b.price;
+                });
+            },
+            filterMaxToMin(array) {
+                return array.sort((a, b) => {
+                    return b.price - a.price;
+                });
+            }, 
+            filterName(array) {
+                return array.sort((a, b) => {
+                    let aString = a.name;
+                    let bString = b.name;
+                    return aString === bString ? 0 : aString > bString ? 1 : -1;
+                    // return a.name.toUpperCase() - b.name.toUpperCase();
+                });
             }
         },
         components: {
@@ -52,9 +90,9 @@
             ListElement,
             FormComp,
         },
-        mounted() {
-
-        }
+        // mounted() {
+            
+        // }
     } 
 </script>
 

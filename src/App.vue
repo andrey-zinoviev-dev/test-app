@@ -5,7 +5,7 @@
   </nav> -->
   <!-- <router-view/> -->
   <main>
-    <GoodsSection :goods="goodsList" @deleteGood="this.deleteGood" @addGood="addGood"></GoodsSection>
+    <GoodsSection v-if="goodsList" :goods="goodsList" @deleteGood="this.deleteGood" @addGood="addGood"></GoodsSection>
   </main>
 </template>
 
@@ -49,7 +49,7 @@
     mounted() {
       this.goodsList = [         
         {
-          name: "Наименование товара",
+          name: "Товар 1",
           description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
           price: 10000,
           id: 1,
@@ -57,33 +57,33 @@
           delete: deleteSvg,
         }, 
         {
-          name: "Наименование товара",
+          name: "Картина",
           description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 10000,
+          price: 20000,
           id: 2,
           pic: goodPic,
           delete: deleteSvg,
         }, 
         {
-          name: "Наименование товара",
+          name: "Фотоаппарат",
           description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 10000,
+          price: 30000,
           id: 3,
           pic: goodPic,
           delete: deleteSvg,
         },
         {
-          name: "Наименование товара",
+          name: "Ноутбук",
           description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 10000,
+          price: 40000,
           id: 4,
           pic: goodPic,
           delete: deleteSvg,
         },
         {
-          name: "Наименование товара",
+          name: "Телефон",
           description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 10000,
+          price: 50000,
           id: 5,
           pic: goodPic,
           delete: deleteSvg,
