@@ -1,62 +1,75 @@
 <template>
-    <form novalidate>
-        <div>
+    <form novalidate @submit.prevent="this.addGood">
+        <div class="div-error-span">
             <span class="required">Наименование товара</span>
             <InputComp @update:modelValue="this.checkForm" v-model="goodName" :type="'text'" :placeholder="'Введите наименование товара'" :name="'name'" :required="'required'"></InputComp>
-            <!-- <input type="text" placeholder="Введите наименование товара" name="name" required /> -->
+            <span class="span-error">{{this.goodErrorValue}}</span>
         </div>
         <div>
             <span>Описание товара</span>
-            <textarea name="description" id="" cols="30" rows="10" placeholder="Введите описание товара"></textarea>
+            <TextAreaComp @update:modelValue="this.checkForm" v-model="goodDescription" :name="'description'"></TextAreaComp>
+            <!-- <textarea @update:modelValue="" v-model="goodDescription" name="description" id="" cols="30" rows="10" placeholder="Введите описание товара"></textarea> -->
         </div>
-        <div>
+        <div class="div-error-span">
             <span class="required">Ссылка на изображение товара</span>
-            <InputComp @update:modelValue="this.checkForm" v-model="url" :type="'text'" :placeholder="'Введите ссылку'" :name="'url'" :required="''"></InputComp>
-            <!-- <input type="text" name="url" id="" required placeholder="Введите ссылку"> -->
+            <InputComp @update:modelValue="this.checkForm" v-model="url" :type="'text'" :placeholder="'Введите ссылку'" :name="'pic'" :required="''"></InputComp>
+            <span class="span-error">{{this.urlErrorValue}}</span>
         </div>
-        <div>
+        <div class="div-error-span">
             <span class="required">Цена товара</span>
             <InputComp @update:modelValue="this.checkForm" v-model="price" :type="'string'" :placeholder="'Введите цену'" :name="'price'" :required="'required'"></InputComp>
-            <!-- <input type="number" name="price" id="" placeholder="Введите цену"> -->
+            <span class="span-error">{{this.priceErrorValue}}</span>
         </div>
-        <button type="submit" :disabled="this.disabled" @click.prevent="this.addGood(this.objectToSend)" :class="{ disabled: this.disabled }">Добавить товар</button>
+        <button type="submit" :disabled="this.disabled" :class="{ disabled: this.disabled }">Добавить товар</button>
     </form>
 </template>
 
 <script>
-    import InputComp from './InputComp.vue'
+    import InputComp from './InputComp.vue';
+    import TextAreaComp from './TextAreaComp.vue';
+
     export default {
         name: 'FormComp',
         data() {
             return {
-                objectToSend: {},
+                // objectToSend: {},
                 goodName: null,
                 goodNameVailid: false,
+                goodErrorValue:null,
                 goodDescription: null,
                 goodDescriptionValid: false,
                 url: null,
                 urlValid: false,
+                urlErrorValue: null,
                 price: null,
                 priceValid: false,
+                priceErrorValue: null,
                 disabled: true,
             }
         },
         components: {
             InputComp,
+            TextAreaComp,
         },
         methods: {
-            checkForm(inputValue, inputName, inputValidity) {
-                this.objectToSend[inputName] = inputValue;
+            checkForm(inputValue, inputName, inputValidity, inputError) {
+                // const testObject = {};
+                // testObject[inputName] = inputValue;
+
+                // this.objectToSend = testObject;
                 if(inputName === 'name') {
                     this.goodNameVailid = inputValidity;
+                    inputError ? this.goodErrorValue = "Поле является обязательным" : this.goodErrorValue = null;
                 }
 
-                if(inputName === 'url') {
+                if(inputName === 'pic') {
                     this.goodDescriptionValid = inputValidity;
+                    inputError ? this.urlErrorValue = "Поле является обязательным" : this.urlErrorValue = null;
                 }
 
                 if(inputName === 'price') {
                     this.priceValid = inputValidity;
+                    inputError ? this.priceErrorValue = "Поле является обязательным" : this.priceErrorValue = null;
                 }
 
                 if(this.goodNameVailid && this.goodDescriptionValid && this.priceValid) {
@@ -65,8 +78,23 @@
                 
                 return this.disabled = true;  
             },
-            addGood(object) {
-                return this.$emit('addGood', object);
+            addGood(evt) {
+                const objectToSend = {
+                    name: this.goodName,
+                    description: this.goodDescription,
+                    price: this.price,
+                    pic: this.url,
+                };
+                evt.target.reset();
+
+                this.goodName = null;
+                this.goodDescription = null;
+                this.url = null;
+                this.price = null;
+                
+                this.disabled = true;
+
+                return this.$emit('addGood', objectToSend);
             }
             
         }
@@ -94,8 +122,8 @@
         align-items: flex-start;
         margin-bottom: 16px;
     }
-    div:last-of-type {
-        margin-bottom: 24px;
+    .div-error-span {
+        margin: 0 0 8px 0;        
     }
     .required::after {
         content:'';
@@ -116,16 +144,29 @@
         box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
         border-radius: 4px;
         border: none;
+        outline: none;
     }
     input::placeholder, textarea::placeholder {
         font-family: 'Source Sans Pro', sans-serif;
+    }
+    input:focus-within, textarea:focus-within {
+        border: 2px solid #acacac;
+    }
+    
+    input {
         padding: 0 0 0 16px;
     }
     input, button {
         min-height: 36px;
     }
     textarea {
+        padding: 10px 0 0 16px;
         max-height: 108px;
+        resize: none;
+        box-sizing: border-box;
+    }
+    textarea::placeholder {
+        padding: 10px 0 0 16px;
     }
     span {
         font-size: 12px;
@@ -133,6 +174,16 @@
         letter-spacing: -0.02em;
         margin-bottom: 4px;
         position: relative;
+    }
+    .span-error {
+        min-height: 10px;
+        margin-top: 10px;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 10px;
+        letter-spacing: -0.02em;
+        color: #FF8484;
+        margin: 8px 0 0 0;
     }
     button {
         border-radius: 10px;
@@ -142,11 +193,17 @@
         font-size: 12px;
         line-height: 15px;
         color: #FFFFFF;
+        cursor: pointer;
         /* margin-top: 24px; */
     }
     .disabled {
         color: #B4B4B4;
         background: #EEEEEE;
         box-shadow: none;
+    }
+    @media screen and (max-width: 1023px) {
+        form {
+            margin: 0 0 16px 0;
+        }
     }
 </style>

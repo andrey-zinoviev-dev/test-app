@@ -1,9 +1,9 @@
 <template>
     <article @mouseover="this.hoverGood" @mouseleave="this.unhoverGood">
         <button  @click="this.deleteGood(good)" :class="{isHovered: this.isHovered}">
-            <img :src="good.delete" alt="">
+            <img :src="require('../assets/delete.svg')" alt="">
         </button>
-        <img :src="good.pic" alt="">
+        <img class="good-pic" :src="good.pic" alt="">
         <div>
             <h3>{{good.name}}</h3>
             <p>{{good.description}}</p>
@@ -13,6 +13,8 @@
 </template>
 
 <script>
+    // import deleteSvg from '../assets/delete.svg';
+
     export default {
         data() {
             return {
@@ -45,7 +47,23 @@
         border-radius: 4px;
         height: 100%;
         cursor: pointer;
+        border: 2px solid transparent;
+        transition: border 0.35s ease-in-out, box-shadow 0.35s ease-in-out 0.01s;
+        display: flex;
+        flex-direction: column;
+        /* overflow: hidden; */
         /* text-align: left; */
+    }
+    article:hover {
+        border: 2px solid #acacac;
+        box-shadow: 0 20px 30px #d95e5e, 0 6px 10px #d95e5e;
+    }
+    .good-pic {
+        max-width: 332px;
+        max-height: 200px;
+        min-height: 200px;
+        object-fit: cover;
+        border-radius: 4px 4px 0 0;
     }
     button {
         position: absolute;
@@ -81,6 +99,9 @@
         font-size: 16px;
         line-height: 20px;
         margin: 0 0 32px 0;
+        min-height: 80px;
+        max-height: 80px;
+        overflow-y: auto;
     }
     span {
         font-weight: 600;

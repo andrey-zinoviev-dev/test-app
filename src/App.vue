@@ -1,22 +1,21 @@
 <template>
-  <!-- <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav> -->
-  <!-- <router-view/> -->
   <main>
-    <GoodsSection v-if="goodsList" :goods="goodsList" @deleteGood="this.deleteGood" @addGood="addGood"></GoodsSection>
+    <GoodsSection v-if="goodsList.length > 0" :goods="goodsList" @deleteGood="this.deleteGood" @addGood="addGood"></GoodsSection>
   </main>
 </template>
 
 <script>
   import GoodsSection from './components/GoodsSection.vue';
-  import goodPic from './assets/goodPic.png';
-  import deleteSvg from './assets/delete.svg'; 
+  //вот этот testArray
+  import testArray from './utils';
+
+  // console.log(testArray);
+
   export default {
     data() {
       return {
-        goodsList: null,
+        goodsList: [],
+
       }
     },
     //по-хорошему для реактивных изменений надо использовать watch, но я не понимаю,
@@ -34,61 +33,23 @@
     methods: {
       //вот здесь
       deleteGood(goodData) {
-        // console.log(goodData);
-        // const goodIndex = this.goodsList.indexOf(goodData);
-        // this.goodsList.splice(goodIndex, 1);
-        // this.goodsList = resultArray;
         this.goodsList = this.goodsList.filter((good) => {
           return good.id !== goodData.id;
         });
+        localStorage.setItem('goodsArray', JSON.stringify(this.goodsList));
       },
       addGood(goodData) {
         this.goodsList.unshift(goodData);
+        localStorage.setItem('goodsArray', JSON.stringify(this.goodsList));
       },
     },
     mounted() {
-      this.goodsList = [         
-        {
-          name: "Товар 1",
-          description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 10000,
-          id: 1,
-          pic: goodPic,
-          delete: deleteSvg,
-        }, 
-        {
-          name: "Картина",
-          description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 20000,
-          id: 2,
-          pic: goodPic,
-          delete: deleteSvg,
-        }, 
-        {
-          name: "Фотоаппарат",
-          description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 30000,
-          id: 3,
-          pic: goodPic,
-          delete: deleteSvg,
-        },
-        {
-          name: "Ноутбук",
-          description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 40000,
-          id: 4,
-          pic: goodPic,
-          delete: deleteSvg,
-        },
-        {
-          name: "Телефон",
-          description: "Довольно-таки интересное описание товара в несколько строк. Довольно-таки интересное описание товара в несколько строк",
-          price: 50000,
-          id: 5,
-          pic: goodPic,
-          delete: deleteSvg,
-        },    
-      ];
+      //read операция локального хранилища
+      // const testArray =  JSON.parse(localStorage.getItem('goodsArray'));
+      // this.goodsList = testArray;
+      
+      //это массив карточек по умолчанию из файла utils.js, как заглушка. Чтобы проверить сохранение карточек при перезагрузке, нужно это закомментировать и раскомменитровать 2 строчки выше и щакомментироват импорт testArray вверху
+      this.goodsList = testArray;
     }
   }
 </script>
@@ -102,17 +63,7 @@
   color: #2c3e50;
   background: rgba(255, 254, 251, 0.8);
 }
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+body {
+  margin: 0;
 }
 </style>

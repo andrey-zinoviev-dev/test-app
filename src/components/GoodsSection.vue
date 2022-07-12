@@ -11,7 +11,7 @@
             </div>
         </div>
         
-        <div>
+        <div class="data-block">
             <FormComp @addGood="this.addGood"></FormComp>
             <ListComp>
                 <ListElement v-for="(good, index) in goods" :key="index">
@@ -28,22 +28,17 @@
     import GoodComponent from './GoodComponent.vue';
     import FormComp from './FormComp.vue';
 
-    
-
     export default {
         name: "GoodsSection",
         data() {
             return {
                 selected: "default",
                 goodsToRender: this.goods,
-
             };
         },
         watch: {
             selected(newSlectedValue) {
-                // console.log(oldSelectedValue);
                 if(newSlectedValue === 'default') {
-                    // return this.goodsToRender;
                     this.filterName(this.goodsToRender);
                 }
                 if(newSlectedValue === 'min') {
@@ -67,12 +62,12 @@
             },
             filterMinToMax (array) {
                 return array.sort((a, b) => {
-                    return a.price - b.price;
+                    return +a.price.replace(" ","") - +b.price.replace(" ","");
                 });
             },
             filterMaxToMin(array) {
                 return array.sort((a, b) => {
-                    return b.price - a.price;
+                    return +b.price.replace(" ","") - +a.price.replace(" ","");
                 });
             }, 
             filterName(array) {
@@ -80,7 +75,6 @@
                     let aString = a.name;
                     let bString = b.name;
                     return aString === bString ? 0 : aString > bString ? 1 : -1;
-                    // return a.name.toUpperCase() - b.name.toUpperCase();
                 });
             }
         },
@@ -90,9 +84,9 @@
             ListElement,
             FormComp,
         },
-        // mounted() {
-            
-        // }
+        mounted() {
+            // console.log(this.goodsToRender);
+        }
     } 
 </script>
 
@@ -150,8 +144,23 @@
         cursor: pointer;
         outline: none;
     }
-
     .heading-block {
         margin: 0 0 16px 0;
+    }
+    @media screen and (max-width: 767px) {
+        section {
+            padding: 32px 0;
+        }
+        .heading-block {
+            align-items: center;
+            padding: 0 32px;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 22px;
+        }
+        .data-block {
+            display: block;    
+        }
     }
 </style>
