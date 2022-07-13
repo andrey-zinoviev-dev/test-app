@@ -1,9 +1,13 @@
 # test-app
-##node-version
+## node-version
+```
 Версия Node.js: 16.16.0
-##запуск проекта
+```
+## запуск проекта
+```
 для запуска проекта в режиме разработки используется команда 
 vue serve
+```
 ## Project setup
 ```
 npm install
